@@ -20,15 +20,15 @@ function RightBar() {
         </p>
         <div className="mx-5 my-[23px] flex flex-col gap-5">
           {" "}
-          <img src={comment} alt="" />
-          <img src={comment} alt="" />
-          <img src={comment} alt="" />
+          <img width={179} src={comment} alt="" />
+          <img width={179} src={comment} alt="" />
+          <img width={179} src={comment} alt="" />
         </div>
         <p className="mx-5 max-w-[306px] mt-[21px] ">
           Go to Settings Social and enable “Share my listening activity on
           Spotify.’ You can turn this off at any time.
         </p>
-        <button className="mx-[56px] bg-white text-black rounded-[40px] px-[63px] py-[19px] font-bold mt-[23px] ml-[56px]">
+        <button className="mx-[56px] bg-white hover:bg-slate-400 hover:text-white text-black rounded-[40px] px-[63px] py-[19px] font-bold mt-[23px] ml-[56px] ">
           SETTINGS
         </button>
       </div>

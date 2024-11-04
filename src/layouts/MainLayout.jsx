@@ -13,7 +13,7 @@ function MainLayout({ children }) {
       <div>
         <RightBar></RightBar>
       </div>
-      <div className="h-[112px] bg-blue-600 text-white fixed bottom-0 z-10 w-full"></div>
+      <div className="h-[112px] bg-blue-600 text-white fixed bottom-0 z-10 w-full "></div>
     </div>
   );
 }
