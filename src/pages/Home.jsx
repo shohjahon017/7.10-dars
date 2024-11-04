@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import http from "../axios";
-import back from "../assets/back.svg";
-import forward from "../assets/forward.svg";
+import back from "./../images/back.svg";
+import forward from "./../images/forward.svg";
 
 function Home() {
   const [playlists, setPlaylists] = useState([]);
