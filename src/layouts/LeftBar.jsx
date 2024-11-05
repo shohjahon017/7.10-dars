@@ -41,7 +41,7 @@ function LeftBar() {
   return (
     <div className="w-[20vw] fixed h-[100vh] bg-black text-white top-0">
       <div className="pl-[34px] pt-[72px]">
-        <div className="flex items-center gap-[23px] cursor-pointer">
+        <div className="flex items-center  gap-[23px] cursor-pointer  ">
           <img src={home} alt="Home" />
           <h2>Home</h2>
         </div>

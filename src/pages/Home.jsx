@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import http from "../axios";
-import back from "./../images/back.svg";
-import forward from "./../images/forward.svg";
+import back from "../images/back.svg";
+import forward from "../images/forward.svg";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   const [playlists, setPlaylists] = useState([]);
@@ -10,65 +11,103 @@ function Home() {
   const [recent, setRecent] = useState([]);
   const [jump, setJump] = useState([]);
   const [unique, setUnique] = useState([]);
+  const navigate = useNavigate();
 
   const [showAllTopMixes, setShowAllTopMixes] = useState(false);
-  const [showAllMade, setShowAllMade] = useState(false);
-  const [showAllRecent, setShowAllRecent] = useState(false);
-  const [showAllJump, setShowAllJump] = useState(false);
-  const [showAllUnique, setShowAllUnique] = useState(false);
+  const [showAllSections, setShowAllSections] = useState({
+    made: false,
+    recent: false,
+    jump: false,
+    unique: false,
+  });
 
   useEffect(() => {
-    function fetchPlaylists() {
-      http
-        .get("featured-playlists")
-        .then((response) => {
-          setPlaylists(response.data.playlists.items.slice(0, 6));
-        })
-        .catch((error) => console.log(error));
+    const fetchPlaylists = async () => {
+      try {
+        const playlistsRes = await http.get("featured-playlists");
+        setPlaylists(playlistsRes.data.playlists.items.slice(0, 6));
 
-      http
-        .get("categories/toplists/playlists")
-        .then((response) => {
-          setTopMixes(response.data.playlists.items);
-        })
-        .catch((error) => console.log(error));
+        const topMixesRes = await http.get("categories/toplists/playlists");
+        setTopMixes(topMixesRes.data.playlists.items);
 
-      http
-        .get("categories/0JQ5DAqbMKFHOzuVTgTizF/playlists")
-        .then((response) => {
-          setMade(response.data.playlists.items);
-        })
-        .catch((error) => console.log(error));
+        const madeRes = await http.get(
+          "categories/0JQ5DAqbMKFHOzuVTgTizF/playlists"
+        );
+        setMade(madeRes.data.playlists.items);
 
-      http
-        .get("categories/0JQ5DAqbMKFQ00XGBls6ym/playlists")
-        .then((response) => {
-          setRecent(response.data.playlists.items);
-        })
-        .catch((error) => console.log(error));
+        const recentRes = await http.get(
+          "categories/0JQ5DAqbMKFQ00XGBls6ym/playlists"
+        );
+        setRecent(recentRes.data.playlists.items);
 
-      http
-        .get("categories/0JQ5DAqbMKFLVaM30PMBm4/playlists")
-        .then((response) => {
-          setJump(response.data.playlists.items);
-        })
-        .catch((error) => console.log(error));
+        const jumpRes = await http.get(
+          "categories/0JQ5DAqbMKFLVaM30PMBm4/playlists"
+        );
+        setJump(jumpRes.data.playlists.items);
 
-      http
-        .get("categories/0JQ5DAqbMKFCbimwdOYlsl/playlists")
-        .then((response) => {
-          setUnique(response.data.playlists.items);
-        })
-        .catch((error) => console.log(error));
-    }
+        const uniqueRes = await http.get(
+          "categories/0JQ5DAqbMKFCbimwdOYlsl/playlists"
+        );
+        setUnique(uniqueRes.data.playlists.items);
+      } catch (error) {
+        console.log(error);
+      }
+    };
     fetchPlaylists();
   }, []);
 
+  function handleClick(id) {
+    navigate(`/details/${id}`);
+  }
+
+  const sections = [
+    {
+      title: "Your top mixes",
+      items: topMixes,
+      showAll: showAllTopMixes,
+      toggleShowAll: setShowAllTopMixes,
+    },
+    {
+      title: "Made for you",
+      items: made,
+      showAll: showAllSections.made,
+      toggleShowAll: () =>
+        setShowAllSections({ ...showAllSections, made: !showAllSections.made }),
+    },
+    {
+      title: "Recently played",
+      items: recent,
+      showAll: showAllSections.recent,
+      toggleShowAll: () =>
+        setShowAllSections({
+          ...showAllSections,
+          recent: !showAllSections.recent,
+        }),
+    },
+    {
+      title: "Jump back in",
+      items: jump,
+      showAll: showAllSections.jump,
+      toggleShowAll: () =>
+        setShowAllSections({ ...showAllSections, jump: !showAllSections.jump }),
+    },
+    {
+      title: "Uniquely yours",
+      items: unique,
+      showAll: showAllSections.unique,
+      toggleShowAll: () =>
+        setShowAllSections({
+          ...showAllSections,
+          unique: !showAllSections.unique,
+        }),
+    },
+  ];
+
   return (
     <div className="py-4 rounded-lg w-full max-w-4xl mx-auto">
-      <div className="flex gap-[22px] mt-10 ml-5">
-        <img src={back} alt="" />
-        <img src={forward} alt="" />
+      <div className="flex gap-5 mt-10 ml-5">
+        <img src={back} alt="Go back" className="cursor-pointer" />
+        <img src={forward} alt="Go forward" className="cursor-pointer" />
       </div>
       <div className="p-4 rounded-lg w-full max-w-4xl mx-auto mt-8">
         <h2 className="text-white text-2xl font-semibold mb-4">
@@ -78,6 +117,7 @@ function Home() {
           {playlists.map((playlist) => (
             <div
               key={playlist.id}
+              onClick={() => handleClick(playlist.id)}
               className="bg-gray-800 text-white rounded-lg flex items-center p-3 space-x-4 cursor-pointer hover:bg-gray-700"
             >
               <img
@@ -90,70 +130,15 @@ function Home() {
           ))}
         </div>
       </div>
-      <div className="mt-10">
-        <div className="flex justify-between mx-[41px] mb-4">
-          <h5 className="text-white text-lg font-semibold">Your top mixes</h5>
-          <h6
-            onClick={() => setShowAllTopMixes(!showAllTopMixes)}
-            className="text-blue-500 cursor-pointer"
-          >
-            {showAllTopMixes ? "SHOW LESS" : "SEE ALL"}
-          </h6>
-        </div>
-        <div
-          className={`flex gap-4 px-[41px] justify-center ${
-            showAllTopMixes ? "flex-wrap" : "flex-nowrap"
-          }`}
-        >
-          {(showAllTopMixes ? topMixes : topMixes.slice(0, 4)).map((mix) => (
-            <div
-              key={mix.id}
-              className="bg-gray-800 text-white rounded-lg items-center w-[224px] p-3 cursor-pointer hover:bg-gray-700"
-            >
-              <img
-                src={mix.images[0]?.url}
-                alt={mix.name}
-                className="w-[182px] h-[182px] rounded"
-              />
-              <span className="text-lg font-medium">{mix.name}</span>
-            </div>
-          ))}
-        </div>
-      </div>
 
-      {[
-        {
-          title: "Made for you",
-          items: made,
-          showAll: showAllMade,
-          setShowAll: setShowAllMade,
-        },
-        {
-          title: "Recently played",
-          items: recent,
-          showAll: showAllRecent,
-          setShowAll: setShowAllRecent,
-        },
-        {
-          title: "Jump back in",
-          items: jump,
-          showAll: showAllJump,
-          setShowAll: setShowAllJump,
-        },
-        {
-          title: "Uniquely yours",
-          items: unique,
-          showAll: showAllUnique,
-          setShowAll: setShowAllUnique,
-        },
-      ].map((section, index) => (
-        <div className="mt-10 " key={index}>
+      {sections.map((section, index) => (
+        <div className="mt-10" key={index}>
           <div className="flex justify-between mx-[41px] mb-4">
             <h5 className="text-white text-lg font-semibold">
               {section.title}
             </h5>
             <h6
-              onClick={() => section.setShowAll(!section.showAll)}
+              onClick={section.toggleShowAll}
               className="text-blue-500 cursor-pointer"
             >
               {section.showAll ? "SHOW LESS" : "SEE ALL"}
@@ -165,9 +150,10 @@ function Home() {
             }`}
           >
             {(section.showAll ? section.items : section.items.slice(0, 4)).map(
-              (item, itemIndex) => (
+              (item) => (
                 <div
-                  key={`${item.id}-${itemIndex}`}
+                  key={item.id}
+                  onClick={() => handleClick(item.id)}
                   className="bg-gray-800 text-white rounded-lg items-center w-[224px] p-3 cursor-pointer hover:bg-gray-700"
                 >
                   <img
@@ -175,7 +161,7 @@ function Home() {
                     alt={item.name}
                     className="w-[182px] h-[182px] rounded"
                   />
-                  <span className="text-lg font-medium ">{item.name}</span>
+                  <span className="text-lg font-medium">{item.name}</span>
                 </div>
               )
             )}

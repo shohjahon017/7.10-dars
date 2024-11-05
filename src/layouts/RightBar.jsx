@@ -10,7 +10,7 @@ function RightBar() {
       <div className="w-[20vw] fixed h-[100vw] bg-black text-white right-0 top-0 ">
         <div className="flex mx-5 mt-[29px]">
           <h4>Friend Activity</h4>
-          <div className="flex pl-[97px] gap-4 ">
+          <div className="flex pl-[97px] gap-4 cursor-pointer ">
             <img src={user} alt="" />
             <img src={union} alt="" />
           </div>

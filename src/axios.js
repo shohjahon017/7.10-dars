@@ -33,4 +33,18 @@ http.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
+http.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    const status = error.response ? error.response.status : null;
+    if (status == 401) {
+      localStorage.removeItem("token");
+      getToken();
+    }
+    return Promise.reject(error);
+  }
+);
+
 export default http;
