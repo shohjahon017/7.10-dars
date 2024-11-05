@@ -5,9 +5,11 @@ import search from "../assets/search.svg";
 import library from "../assets/library.svg";
 import add from "../assets/add.svg";
 import liked from "../assets/liked.svg";
+import { useNavigate } from "react-router-dom";
 
 function LeftBar() {
   const [data, setData] = useState([]);
+  const naviate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,7 +29,6 @@ function LeftBar() {
         .then((data) => {
           if (data.playlists && data.playlists.items) {
             setData(data.playlists.items);
-            console.log(data.playlist);
           }
         })
         .catch((err) => {
@@ -37,11 +38,17 @@ function LeftBar() {
 
     fetchData();
   }, []);
+  function handleClick() {
+    naviate("/");
+  }
 
   return (
-    <div className="w-[20vw] fixed h-[100vh] bg-black text-white top-0">
+    <div className="w-[21vw] fixed h-[100vh] bg-black text-white top-0">
       <div className="pl-[34px] pt-[72px]">
-        <div className="flex items-center  gap-[23px] cursor-pointer  ">
+        <div
+          onClick={handleClick}
+          className="flex items-center  gap-[23px] cursor-pointer  "
+        >
           <img src={home} alt="Home" />
           <h2>Home</h2>
         </div>

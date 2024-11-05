@@ -104,7 +104,7 @@ function Home() {
   ];
 
   return (
-    <div className="py-4 rounded-lg w-full max-w-4xl mx-auto">
+    <div className="py-4 rounded-lg w-full  max-w-4xl mx-auto bg-[linear-gradient(180deg,_#3333A3_5.09%,_#121212_33.4%)]">
       <div className="flex gap-5 mt-10 ml-5">
         <img src={back} alt="Go back" className="cursor-pointer" />
         <img src={forward} alt="Go forward" className="cursor-pointer" />

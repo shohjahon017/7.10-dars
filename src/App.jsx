@@ -4,10 +4,10 @@ import Home from "./pages/Home";
 import Likes from "./pages/Likes";
 import Details from "./pages/Details";
 import MainLayout from "./layouts/MainLayout";
-
+// bg-[linear-gradient(180deg,_#3333A3_5.09%,_#121212_33.4%)]
 function App() {
   return (
-    <div className="bg-[linear-gradient(180deg,_#3333A3_5.09%,_#121212_33.4%)] w-full min-h-screen flex">
+    <div className=" w-full min-h-screen flex">
       <Routes>
         <Route
           path="/"
