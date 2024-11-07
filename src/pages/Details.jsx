@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import http from "../axios";
 import ReactPlayer from "react-player";
-import back from "../../public/back.svg";
-import forward from "../images/forward.svg";
 import download from "../images/download.svg";
 import search from "../images/search.svg";
 import option from "../images/option.svg";
@@ -49,8 +47,8 @@ function Details() {
     <div className="max-w-4xl mx-auto bg-stone-900">
       <div className="p-8 bg-gradient-to-b from-[#DDF628] to-black">
         <div className="flex gap-[22px] mt-10">
-          <img src={back} alt="Go back" className="cursor-pointer" />
-          <img src={forward} alt="Go forward" className="cursor-pointer" />
+          <img src="/Back.svg" alt="Go back" className="cursor-pointer" />
+          <img src="/Forward.svg" alt="Go forward" className="cursor-pointer" />
         </div>
         <div className="flex gap-8 mt-[57px]">
           <img
