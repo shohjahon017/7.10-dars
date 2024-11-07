@@ -49,7 +49,7 @@ function LeftBar() {
           <h2>Home</h2>
         </div>
         <div className="flex items-center pt-5 gap-[23px] cursor-pointer">
-          <img src="/search" alt="Search" />
+          <img src="/search.svg" alt="Search" />
           <h2>Search</h2>
         </div>
         <div className="flex items-center pt-5 gap-[23px] cursor-pointer">
@@ -61,7 +61,7 @@ function LeftBar() {
           <h2>Create Playlist</h2>
         </div>
         <div className="flex items-center pt-5 gap-[23px] cursor-pointer">
-          <img src="/liked" alt="Liked Songs" />
+          <img src="/liked.svg" alt="Liked Songs" />
           <h2>Liked Songs</h2>
         </div>
       </div>
