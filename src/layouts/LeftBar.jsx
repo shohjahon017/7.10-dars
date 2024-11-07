@@ -43,7 +43,7 @@ function LeftBar() {
   }
 
   return (
-    <div className="w-[21vw] fixed h-[100vh] bg-black text-white top-0">
+    <div className="w-[21vw] max-h-[150vh] h-full  fixed  overflow-y-auto bg-black text-white top-0">
       <div className="pl-[34px] pt-[72px]">
         <div
           onClick={handleClick}

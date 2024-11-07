@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import http from "../axios";
+import ReactPlayer from "react-player";
 import back from "../images/back.svg";
 import forward from "../images/forward.svg";
 import download from "../images/download.svg";
@@ -13,11 +14,8 @@ import play from "../images/play.svg";
 function Details() {
   const { id: playlistId } = useParams();
   const [details, setDetails] = useState(null);
-  const [playing, setPlaying] = useState(false);
-
-  const player = new Audio(
-    "https://www.w3schools.com/jsref/met_audio_play.asp"
-  );
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentSong, setCurrentSong] = useState(null);
 
   useEffect(() => {
     if (playlistId) {
@@ -25,35 +23,43 @@ function Details() {
         .get(`https://api.spotify.com/v1/playlists/${playlistId}`)
         .then((response) => {
           setDetails(response.data);
-          console.log(response.data.tracks.items);
         })
         .catch((error) => console.log(error));
     }
   }, [playlistId]);
-  function togglePlay() {
-    playing ? player.pause() : player.play();
-    setPlaying(!playing);
+
+  function MusicDuration(ms) {
+    const minute = Math.floor(ms / 60000);
+    const second = Math.floor((ms % 60000) / 1000);
+    return `${minute}:${second < 10 ? "0" : ""}${second}`;
+  }
+
+  function playTrack(track) {
+    if (currentSong?.id === track.id) {
+      setIsPlaying(!isPlaying);
+    } else {
+      setCurrentSong(track);
+      setIsPlaying(true);
+    }
   }
 
   if (!details) return <div className="text-white">Loading...</div>;
 
   return (
-    <div className=" max-w-4xl mx-auto bg-[linear-gradient(180deg,_#DEF628_5.09%,_#121212_43.28%)]">
-      <div className="p-8">
-        <div className="flex gap-[22px] mt-10 w-full bg-[] ">
+    <div className="max-w-4xl mx-auto bg-stone-900">
+      <div className="p-8 bg-gradient-to-b from-[#DDF628] to-black">
+        <div className="flex gap-[22px] mt-10">
           <img src={back} alt="Go back" className="cursor-pointer" />
           <img src={forward} alt="Go forward" className="cursor-pointer" />
         </div>
-        <div className="flex gap-8 mt-[57px] ">
-          {" "}
+        <div className="flex gap-8 mt-[57px]">
           <img
             src={details.images[0]?.url}
             alt={details.name}
             className="w-[297px] h-[297px] rounded mb-4"
-          />{" "}
+          />
           <div>
-            {" "}
-            <h2 className="text-[122px] font-bold mb-4 text-white max-w-[659px]">
+            <h2 className="text-[80px] font-bold mb-4 text-white max-w-[659px]">
               {details.name}
             </h2>
             <p className="text-white text-lg mb-4 max-w-[319px]">
@@ -61,14 +67,13 @@ function Details() {
             </p>
           </div>
         </div>
-        <div className=" flex items-center gap-[400px] cursor-pointer ">
+        <div className="flex items-center gap-[400px] cursor-pointer">
           <div className="flex gap-3">
-            {" "}
-            <button onClick={() => togglePlay()}>
-              {" "}
-              <img src={play} alt="play" />
-              {playing ? "Stop" : "Play"}
-            </button>
+            <img
+              src={play}
+              alt="play"
+              onClick={() => setIsPlaying(!isPlaying)}
+            />
             <img src={heart} alt="heart" />
             <img src={download} alt="download" />
             <img src={option} alt="option" />
@@ -80,19 +85,27 @@ function Details() {
             </select>
           </div>
         </div>
-        <div className="flex cursor-pointer border-b-2 border-gray-500 pb-4 text-gray-700 ">
+        <div className="flex items-center border-b-2 border-gray-500 pb-4 text-gray-600">
           <span className="mr-[19px]">#</span>
           <h5 className="mr-[291px]">TITLE</h5>
-          <h5 className="mr-[190px]">ALBUM</h5>
-          <h5 className="mr-[155px]">DATE ADDED</h5>
+          <h5 className="mr-[220px]">ALBUM</h5>
+          <h5 className="mr-[120px]">DATE ADDED</h5>
           <img src={time} alt="time" />
         </div>
       </div>
 
       <ul className="space-y-4 px-10">
         {details.tracks.items.map((track, index) => (
-          <li key={index} className="flex items-center gap-4 text-white">
-            {index + 1}
+          <li
+            key={index}
+            className={`flex items-center gap-4 text-white cursor-pointer ${
+              currentSong?.id === track.track.id && isPlaying
+                ? "text-green-400"
+                : ""
+            }`}
+            onClick={() => playTrack(track.track)}
+          >
+            <span>{index + 1}</span>
             {track.track.album.images[0] && (
               <img
                 src={track.track.album.images[0].url}
@@ -100,15 +113,31 @@ function Details() {
                 className="w-12 h-12 rounded"
               />
             )}
-            <div>
+            <div className="flex-grow">
               <p className="font-medium">{track.track.name}</p>
               <p className="text-sm text-gray-400">
                 {track.track.artists.map((artist) => artist.name).join(", ")}
-              </p>{" "}
+              </p>
+            </div>
+            <p className="text-gray-400 mr-24">{track.track.album.name}</p>
+            <div className="flex items-center">
+              <span>{MusicDuration(track.track.duration_ms)}</span>
             </div>
           </li>
         ))}
       </ul>
+
+      {currentSong && isPlaying && (
+        <div className="fixed bottom-0 left-0 right-0   p-4 z-10 flex justify-center">
+          <ReactPlayer
+            url={currentSong.preview_url}
+            playing={isPlaying}
+            controls
+            width="58%"
+            height="50px"
+          />
+        </div>
+      )}
     </div>
   );
 }

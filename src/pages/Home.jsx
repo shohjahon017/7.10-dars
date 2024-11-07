@@ -22,7 +22,7 @@ function Home() {
   });
 
   useEffect(() => {
-    const fetchPlaylists = async () => {
+    async function fetchPlaylists() {
       try {
         const playlistsRes = await http.get("featured-playlists");
         setPlaylists(playlistsRes.data.playlists.items.slice(0, 6));
@@ -52,7 +52,7 @@ function Home() {
       } catch (error) {
         console.log(error);
       }
-    };
+    }
     fetchPlaylists();
   }, []);
 
@@ -60,51 +60,52 @@ function Home() {
     navigate(`/details/${id}`);
   }
 
+  function toggleShowAllTopMixes() {
+    setShowAllTopMixes(!showAllTopMixes);
+  }
+
+  function toggleShowAllSection(section) {
+    setShowAllSections((prev) => ({
+      ...prev,
+      [section]: !prev[section],
+    }));
+  }
+
   const sections = [
     {
       title: "Your top mixes",
       items: topMixes,
       showAll: showAllTopMixes,
-      toggleShowAll: setShowAllTopMixes,
+      toggleShowAll: toggleShowAllTopMixes,
     },
     {
       title: "Made for you",
       items: made,
       showAll: showAllSections.made,
-      toggleShowAll: () =>
-        setShowAllSections({ ...showAllSections, made: !showAllSections.made }),
+      toggleShowAll: () => toggleShowAllSection("made"),
     },
     {
       title: "Recently played",
       items: recent,
       showAll: showAllSections.recent,
-      toggleShowAll: () =>
-        setShowAllSections({
-          ...showAllSections,
-          recent: !showAllSections.recent,
-        }),
+      toggleShowAll: () => toggleShowAllSection("recent"),
     },
     {
       title: "Jump back in",
       items: jump,
       showAll: showAllSections.jump,
-      toggleShowAll: () =>
-        setShowAllSections({ ...showAllSections, jump: !showAllSections.jump }),
+      toggleShowAll: () => toggleShowAllSection("jump"),
     },
     {
       title: "Uniquely yours",
       items: unique,
       showAll: showAllSections.unique,
-      toggleShowAll: () =>
-        setShowAllSections({
-          ...showAllSections,
-          unique: !showAllSections.unique,
-        }),
+      toggleShowAll: () => toggleShowAllSection("unique"),
     },
   ];
 
   return (
-    <div className="py-4 rounded-lg w-full  max-w-4xl mx-auto bg-[linear-gradient(180deg,_#3333A3_5.09%,_#121212_33.4%)]">
+    <div className="py-4 rounded-lg w-full max-w-4xl pb-24 mx-auto bg-[linear-gradient(180deg,_#3333A3_5.09%,_#121212_33.4%)]">
       <div className="flex gap-5 mt-10 ml-5">
         <img src={back} alt="Go back" className="cursor-pointer" />
         <img src={forward} alt="Go forward" className="cursor-pointer" />
