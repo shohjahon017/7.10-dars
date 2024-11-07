@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import http from "../axios";
 import ReactPlayer from "react-player";
-import back from "../images/back.svg";
+import back from "../../public/back.svg";
 import forward from "../images/forward.svg";
 import download from "../images/download.svg";
 import search from "../images/search.svg";

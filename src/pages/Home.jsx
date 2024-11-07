@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import http from "../axios";
-import back from "../images/back.svg";
+import backIcon from "../../public/back.svg";
 import forward from "../images/forward.svg";
 import { useNavigate } from "react-router-dom";
 
@@ -107,7 +107,7 @@ function Home() {
   return (
     <div className="py-4 rounded-lg w-full max-w-4xl pb-24 mx-auto bg-[linear-gradient(180deg,_#3333A3_5.09%,_#121212_33.4%)]">
       <div className="flex gap-5 mt-10 ml-5">
-        <img src={back} alt="Go back" className="cursor-pointer" />
+        <img src={backIcon} alt="Go back" className="cursor-pointer" />
         <img src={forward} alt="Go forward" className="cursor-pointer" />
       </div>
       <div className="p-4 rounded-lg w-full max-w-4xl mx-auto mt-8">
