@@ -1,7 +1,4 @@
 import React from "react";
-import user from "../assets/user.svg";
-import union from "../assets/union.svg";
-import comment from "../assets/comment.png";
 
 function RightBar() {
   return (
@@ -11,8 +8,8 @@ function RightBar() {
         <div className="flex mx-5 mt-[29px]">
           <h4>Friend Activity</h4>
           <div className="flex pl-[97px] gap-4 cursor-pointer ">
-            <img src={user} alt="" />
-            <img src={union} alt="" />
+            <img src="/user.svg" alt="" />
+            <img src="/union.svg" alt="" />
           </div>
         </div>{" "}
         <p className="mx-5 max-w-[306px] mt-[39px] ">
@@ -20,9 +17,9 @@ function RightBar() {
         </p>
         <div className="mx-5 my-[23px] flex flex-col gap-5">
           {" "}
-          <img width={179} src={comment} alt="" />
-          <img width={179} src={comment} alt="" />
-          <img width={179} src={comment} alt="" />
+          <img width={179} src="/comment.png" alt="" />
+          <img width={179} src="/comment.png" alt="" />
+          <img width={179} src="/comment.png" alt="" />
         </div>
         <p className="mx-5 max-w-[306px] mt-[21px] ">
           Go to Settings Social and enable “Share my listening activity on

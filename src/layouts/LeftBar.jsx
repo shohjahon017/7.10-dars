@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getToken } from "../utils/utils";
-import home from "../assets/home.svg";
-import search from "../assets/search.svg";
-import library from "../assets/library.svg";
-import add from "../assets/add.svg";
-import liked from "../assets/liked.svg";
+
 import { useNavigate } from "react-router-dom";
 
 function LeftBar() {
@@ -49,23 +45,23 @@ function LeftBar() {
           onClick={handleClick}
           className="flex items-center  gap-[23px] cursor-pointer  "
         >
-          <img src={home} alt="Home" />
+          <img src="/home.svg" alt="Home" />
           <h2>Home</h2>
         </div>
         <div className="flex items-center pt-5 gap-[23px] cursor-pointer">
-          <img src={search} alt="Search" />
+          <img src="/search" alt="Search" />
           <h2>Search</h2>
         </div>
         <div className="flex items-center pt-5 gap-[23px] cursor-pointer">
-          <img src={library} alt="Your Library" />
+          <img src="/Library.svg" alt="Your Library" />
           <h2>Your Library</h2>
         </div>
         <div className="flex items-center pt-[49px] gap-[23px] cursor-pointer">
-          <img src={add} alt="Create Playlist" />
+          <img src="/add.svg" alt="Create Playlist" />
           <h2>Create Playlist</h2>
         </div>
         <div className="flex items-center pt-5 gap-[23px] cursor-pointer">
-          <img src={liked} alt="Liked Songs" />
+          <img src="/liked" alt="Liked Songs" />
           <h2>Liked Songs</h2>
         </div>
       </div>
