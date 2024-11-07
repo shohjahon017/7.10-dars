@@ -2,12 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import http from "../axios";
 import ReactPlayer from "react-player";
-import download from "../images/download.svg";
-import search from "../images/search.svg";
-import option from "../images/option.svg";
-import heart from "../images/heart.svg";
-import time from "../images/time.svg";
-import play from "../images/play.svg";
 
 function Details() {
   const { id: playlistId } = useParams();
@@ -68,16 +62,16 @@ function Details() {
         <div className="flex items-center gap-[400px] cursor-pointer">
           <div className="flex gap-3">
             <img
-              src={play}
+              src="/play.svg"
               alt="play"
               onClick={() => setIsPlaying(!isPlaying)}
             />
-            <img src={heart} alt="heart" />
-            <img src={download} alt="download" />
-            <img src={option} alt="option" />
+            <img src="/heart.svg" alt="heart" />
+            <img src="/download.svg" alt="download" />
+            <img src="/option.svg" alt="option" />
           </div>
           <div className="flex items-center gap-8">
-            <img src={search} alt="search" />
+            <img src="/search.svg" alt="search" />
             <select name="" id="">
               <option value="">Custom order</option>
             </select>
@@ -88,7 +82,7 @@ function Details() {
           <h5 className="mr-[291px]">TITLE</h5>
           <h5 className="mr-[220px]">ALBUM</h5>
           <h5 className="mr-[120px]">DATE ADDED</h5>
-          <img src={time} alt="time" />
+          <img src="/time.svg" alt="time" />
         </div>
       </div>
 
