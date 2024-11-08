@@ -9,7 +9,7 @@ function MainLayout({ children }) {
       <div>
         <LeftBar></LeftBar>
       </div>
-      <div className="w-[60vw ] mx-auto">{children}</div>
+      <div className="w-[61vw ] mx-auto">{children}</div>
       <div>
         <RightBar></RightBar>
       </div>
