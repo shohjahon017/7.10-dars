@@ -2,12 +2,18 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import http from "../axios";
 import ReactPlayer from "react-player";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { addSongToLiked, removeSongFromLiked } from "../redux/likedSongsSlice";
 
 function Details() {
   const { id: playlistId } = useParams();
   const [details, setDetails] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentSong, setCurrentSong] = useState(null);
+
+  const likedSongs = useSelector((state) => state.likedSongs.likedSongs);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (playlistId) {
@@ -32,6 +38,14 @@ function Details() {
     } else {
       setCurrentSong(track);
       setIsPlaying(true);
+    }
+  }
+
+  function toggleLike(track) {
+    if (likedSongs.some((liked) => liked.id === track.id)) {
+      dispatch(removeSongFromLiked(track.id));
+    } else {
+      dispatch(addSongToLiked(track));
     }
   }
 
@@ -66,7 +80,6 @@ function Details() {
               alt="play"
               onClick={() => setIsPlaying(!isPlaying)}
             />
-            <img src="/heart.svg" alt="heart" />
             <img src="/download.svg" alt="download" />
             <img src="/option.svg" alt="option" />
           </div>
@@ -112,15 +125,26 @@ function Details() {
               </p>
             </div>
             <p className="text-gray-400 mr-24">{track.track.album.name}</p>
-            <div className="flex items-center">
-              <span>{MusicDuration(track.track.duration_ms)}</span>
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleLike(track.track);
+              }}
+              className="mr-4"
+            >
+              {likedSongs.some((liked) => liked.id === track.track.id) ? (
+                <FaHeart className="text-green-400" />
+              ) : (
+                <FaRegHeart className="text-gray-400" />
+              )}
             </div>
+            <span>{MusicDuration(track.track.duration_ms)}</span>
           </li>
         ))}
       </ul>
 
       {currentSong && isPlaying && (
-        <div className="fixed bottom-0 left-0 right-0   p-4 z-10 flex justify-center">
+        <div className="fixed bottom-0 left-0 right-0 p-4 z-10 flex justify-center">
           <ReactPlayer
             url={currentSong.preview_url}
             playing={isPlaying}

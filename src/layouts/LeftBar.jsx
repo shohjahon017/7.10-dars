@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { getToken } from "../utils/utils";
-
 import { useNavigate } from "react-router-dom";
 
 function LeftBar() {
   const [data, setData] = useState([]);
-  const naviate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,16 +33,13 @@ function LeftBar() {
 
     fetchData();
   }, []);
-  function handleClick() {
-    naviate("/");
-  }
 
   return (
-    <div className="w-[21vw] max-h-[150vh] h-full  fixed  overflow-y-auto bg-black text-white top-0">
+    <div className="w-[21vw] max-h-[150vh] h-full fixed overflow-y-auto bg-black text-white top-0">
       <div className="pl-[34px] pt-[72px]">
         <div
-          onClick={handleClick}
-          className="flex items-center  gap-[23px] cursor-pointer  "
+          onClick={() => navigate("/")}
+          className="flex items-center gap-[23px] cursor-pointer"
         >
           <img src="/home.svg" alt="Home" />
           <h2>Home</h2>
@@ -60,7 +56,10 @@ function LeftBar() {
           <img src="/add.svg" alt="Create Playlist" />
           <h2>Create Playlist</h2>
         </div>
-        <div className="flex items-center pt-5 gap-[23px] cursor-pointer">
+        <div
+          onClick={() => navigate("/liked-songs")}
+          className="flex items-center pt-5 gap-[23px] cursor-pointer"
+        >
           <img src="/liked.svg" alt="Liked Songs" />
           <h2>Liked Songs</h2>
         </div>
